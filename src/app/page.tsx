@@ -13,11 +13,21 @@ export default function Home() {
     const [dots, setDots] = useState("...");
 
     const generateLottoNumbers = () => {
-        console.log("번호 생성");
-        setIsAnimating(true);
+        const newNumbers = [];
+
+        for (let i = 0; i < count; i++) {
+            const set = new Set<number>();
+            while (set.size < 7) {
+                set.add(Math.floor(Math.random() * 45) + 1);
+            }
+            newNumbers.push(Array.from(set).sort((a, b) => a - b));
+        }
+        setNumbers(newNumbers);
     };
+
     return (
         <div className="min-h-screen bg-gray-900 p-4 sm:p-8 flex flex-col items-center justify-center">
+            {/* 로또 번호 생성기 */}
             <motion.h1
                 initial={{ opacity: 0, y: -50 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -26,6 +36,8 @@ export default function Home() {
             >
                 로또 번호 생성기
             </motion.h1>
+
+            {/* 로또 번호 세트 수 선택 */}
             <motion.div
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -54,6 +66,7 @@ export default function Home() {
                     </motion.button>
                 </div>
             </motion.div>
+            {/* 로또 번호 생성 중 로딩 화면 또는 생성된 로또 번호 화면 */}
             <div className="w-full max-w-md text-white">
                 {isAnimating ? (
                     <motion.div
