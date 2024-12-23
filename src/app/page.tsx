@@ -50,7 +50,7 @@ export default function Home() {
   const [numbers, setNumbers] = useState<number[][]>([])
   const [isAnimating, setIsAnimating] = useState(false)
   const [loadingPhrase, setLoadingPhrase] = useState('')
-  const [dots, setDots] = useState('...')
+  const [dots, setDots] = useState('')
 
   const generateLottoNumbers = () => {
     setIsAnimating(true)
@@ -59,6 +59,8 @@ export default function Home() {
     setLoadingPhrase(
       loadingPhrases[Math.floor(Math.random() * loadingPhrases.length)],
     )
+    // 초기 dots 설정
+    setDots('')
 
     const animationDuration = Math.random() * 2000 + 1000 // 1초 ~ 3초 사이의 랜덤 애니메이션 지속 시간
     setTimeout(() => {
@@ -91,6 +93,27 @@ export default function Home() {
 
     return () => {
       clearInterval(phraseInterval)
+    }
+  }, [isAnimating])
+
+  useEffect(() => {
+    let dotsInterval: NodeJS.Timeout
+
+    // 0.5초마다 dots 추가
+    if (isAnimating) {
+      dotsInterval = setInterval(() => {
+        setDots(prevDots => {
+          if (prevDots.length < 3) {
+            return prevDots + '.'
+          }
+
+          return ''
+        })
+      }, 500)
+    }
+
+    return () => {
+      clearInterval(dotsInterval)
     }
   }, [isAnimating])
 
