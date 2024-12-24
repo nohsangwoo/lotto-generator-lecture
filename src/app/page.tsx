@@ -117,6 +117,25 @@ export default function Home() {
     }
   }, [isAnimating])
 
+  const getBackgroundColor = (num: number) => {
+    if (num <= 9) {
+      return 'bg-yellow-500'
+    }
+    if (num <= 19) {
+      return 'bg-blue-400'
+    }
+
+    if (num <= 29) {
+      return 'bg-red-400'
+    }
+
+    if (num <= 39) {
+      return 'bg-gray-400'
+    }
+
+    return 'bg-green-500'
+  }
+
   return (
     <div className="min-h-screen bg-gray-900 p-4 sm:p-8 flex flex-col items-center justify-center">
       {/* 로또 번호 생성기 */}
@@ -212,7 +231,10 @@ export default function Home() {
                           damping: 20,
                           delay: i * 0.1,
                         }}
-                        className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg bg-blue-500"
+                        className={`
+                          w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg 
+                          ${getBackgroundColor(num)}
+                          `}
                       >
                         {num}
                       </motion.div>
@@ -230,7 +252,10 @@ export default function Home() {
                       damping: 20,
                       delay: 0.6,
                     }}
-                    className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg bg-red-500"
+                    className={`
+                      w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg bg-blue-500
+                      ${getBackgroundColor(numberSet[6])}
+                      `}
                   >
                     {numberSet[6]}
                   </motion.div>
